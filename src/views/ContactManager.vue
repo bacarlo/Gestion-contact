@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <p class="h3 text-success fw-bold">Gestion de Contact
-          <router-link to="/contacts/add" class="btn btn-success btn-sm" ><i class="fa fa-plus-circle"></i>New</router-link>
+          <router-link to="/contacts/add" class="btn btn-success btn-sm" ><i class="fa fa-plus-circle"></i> Nouveau</router-link>
         </p>
         <p class="fst-italic">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente soluta impedit, adipisci minima corrupti expedita deserunt ab harum hic tenetur rerum vero quasi consectetur quidem magni exercitationem quia officiis aperiam.</p>
         <form action="">
@@ -23,10 +23,10 @@
       </div>
     </div>
   </div>
-  <div class="container mt-3">
+  <div class="container mt-3" v-if="contacts.length > 0" >
     <div class="row">
-      <div class="col-md-6">
-        <div class="card my-2 list-group-item-success shadow-lg">
+      <div class="col-md-6" v-for="contact of contacts" :key="contact" >
+        <div class="card my-2 list-group-item-success shadow-lg" >
           <div class="card-body">
             <div class="row align-items-center">
               <div class="col-sm-4">
@@ -59,8 +59,37 @@
 </template>
 
 <script>
+import { ContactService } from '@/services/ContactService';
+
   export default {
-    name: "ContactManager"
+    name: "ContactManager",
+    data: function() {
+      return {
+        loading: false,
+        contacts: [],
+        errorMessage: null
+      }
+    },
+
+    created: async function (){
+      try {
+        this.loading = true;
+        let response = await ContactService.getAllContacts();
+        this.contacts = response.data;
+        this.loading = false;
+      }
+      catch (error){
+        this.errorMessage = error;
+        this.loading = false;
+      }
+    },
+
+    methods: {
+      getAllContactData: async function () {
+        return await ContactService.getAllContacts();
+      }
+    }
+
   }
 </script>
 

@@ -23,9 +23,9 @@
         </ul>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
       <div class="col">
-        <router-link to="/" class="btn btn-success">Retour</router-link>
+        <router-link to="/" class="btn btn-success"><i class="fa fa-arrow-circle-left"></i> Retour</router-link>
       </div>
     </div>
   </div>
